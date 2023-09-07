@@ -1,10 +1,29 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import { useState } from "react";
+import { Button, Image, StyleSheet, Text, TextInput, View } from "react-native";
 
 export default function App() {
+  const [nm, setNm] = useState(0);
+
+  const increase = () => {
+    setNm(nm + 1);
+  };
+
+  const decrease = () => {
+    setNm(nm - 1);
+  };
+
   return (
     <View style={styles.container}>
-      <Text>Hello</Text>
+      <Image
+        style={styles.tinyLogo}
+        source={{ uri: "https://reactnative.dev/img/tiny_logo.png" }}
+      />
+      <Text>{nm}</Text>
+      <TextInput style={styles.input}>Test</TextInput>
+      <Button title="Increase" onPress={increase}></Button>
+      <Button title="Decrease" onPress={decrease}></Button>
+
       <StatusBar style="auto" />
     </View>
   );
@@ -13,8 +32,18 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
     justifyContent: "center",
+    alignItems: "center",
+  },
+
+  input: {
+    backgroundColor: "gray",
+    minWidth: 320,
+    minHeight: 50,
+  },
+
+  tinyLogo: {
+    width: 50,
+    height: 50,
   },
 });
