@@ -2,6 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import {
   ActivityIndicator,
   Button,
+  FlatList,
   Image,
   ScrollView,
   StyleSheet,
@@ -36,15 +37,15 @@ export default function App() {
         setItems={setItems}
       />
 
-      <ScrollView style={styles.image_container}>
-        {battleBrawlers.map((cardie) => {
+      <FlatList style={styles.image_container}
+        ItemT={battleBrawlers.map((cardie) => {
           const cardFileName =
             cardie["Image"] === "" ? "InvalidCard.png" : cardie["Image"];
           return (
             <CardComponent name={cardie["Card Name"]} file={cardFileName} />
           );
         })}
-      </ScrollView>
+      />
 
       <StatusBar style="auto" />
     </View>
@@ -79,6 +80,7 @@ const styles = StyleSheet.create({
   },
   search: {
     backgroundColor: "yellow",
+    padding: 20,
   },
   image: {
     aspectRatio: 728 / 1024,
@@ -88,15 +90,18 @@ const styles = StyleSheet.create({
     backgroundColor: "pink",
     width: "100%",
     height: "50%",
-    display: "flex",
-    flexDirection: "row",
+    marginTop: 30,
+    paddingTop: 20,
   },
   card: {
     flex: 1,
     backgroundColor: "orange",
-    width: 200,
-    height: 300,
+    minWidth: 200,
+    minHeight: 300,
     display: "flex",
     flexDirection: "column",
+    marginBottom: 30,
+    borderRadius: 30,
+    padding: 20,
   },
 });
