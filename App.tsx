@@ -1,20 +1,102 @@
 import { StatusBar } from "expo-status-bar";
-import { Button, Image, StyleSheet, Text, TextInput, View } from "react-native";
+import {
+  ActivityIndicator,
+  Button,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
+
+import battleBrawlers from "./assets/battle-brawlers.json";
+import DropDownPicker from "react-native-dropdown-picker";
+import { useState } from "react";
 
 export default function App() {
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
+  const [items, setItems] = useState([
+    { label: "Apple", value: "apple" },
+    { label: "Banana", value: "banana" },
+  ]);
+
   return (
     <View style={styles.container}>
-      <Text>Hello</Text>
+      <Text style={styles.header}>Bakugan Card Browser</Text>
+      <TextInput style={styles.search} placeholder="Search" />
+      <ActivityIndicator size="large" color="#00ff00" />
+      <DropDownPicker
+        open={open}
+        value={value}
+        items={items}
+        setOpen={setOpen}
+        setValue={setValue}
+        setItems={setItems}
+      />
+
+      <ScrollView style={styles.image_container}>
+        {battleBrawlers.map((cardie) => {
+          const cardFileName =
+            cardie["Image"] === "" ? "InvalidCard.png" : cardie["Image"];
+          return (
+            <CardComponent name={cardie["Card Name"]} file={cardFileName} />
+          );
+        })}
+      </ScrollView>
+
       <StatusBar style="auto" />
     </View>
   );
 }
 
+interface CardComponentProps {
+  name: string;
+  file?: string;
+}
+
+const CardComponent: React.FC<CardComponentProps> = ({
+  name,
+  file = "InvalidCard.png",
+}) => {
+  return (
+    <View style={styles.card}>
+      <Text>{name}</Text>
+    </View>
+  );
+};
+
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#cfcfff",
+    backgroundColor: "green",
+    width: "100%",
+  },
+  header: {
+    fontSize: "3em",
+    textAlign: "center",
+    backgroundColor: "purple",
+  },
+  search: {
+    backgroundColor: "yellow",
+  },
+  image: {
+    aspectRatio: 728 / 1024,
+    width: "30%",
+  },
+  image_container: {
+    backgroundColor: "pink",
+    width: "100%",
+    height: "50%",
+    display: "flex",
+    flexDirection: "row",
+  },
+  card: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    backgroundColor: "orange",
+    width: 200,
+    height: 300,
+    display: "flex",
+    flexDirection: "column",
   },
 });
